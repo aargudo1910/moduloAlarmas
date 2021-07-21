@@ -1,0 +1,348 @@
+<div class="row mt-4 justify-content-start" id="all-content">
+	<div class=".col-12 formulario">
+		<h3 class="text-start" *ngIf="modo=='Nuevo'">Ingreso de alarmas</h3>
+		<form [formGroup]="formulario" class="row mt-4 justify-content-start" (ngSubmit)="submit($event)">
+			<div class=".col-xl-12 ">
+				<div class="row">
+          <div class="col-xl-2" >
+            <label> N° Ticket <span style="color:red">*</span></label>
+          </div>
+          <div class="col">
+            <input type="text" class="form-control" style="width: 60px" autocomplete="off" maxlength="200"
+             formControlName ="nTicket" name="nTicket">
+          </div>
+        </div>
+        <div class="w-100"></div>
+        <div class="row">
+          <div class="col-xl-2">
+            <label> Alarmado por: <span style="color:red">*</span></label>
+          </div>
+          <div class="col-xl-4">
+            <select class="form-control" formControlName="alarmadoPor" name="alarmadoPor">
+              <option [value]="alm.descripcion" *ngFor="let alm of alarmadoPor">
+                {{ alm.descripcion | titlecase}}
+              </option>
+            </select>
+          </div>
+          <div class="col">
+            <label> Confirmado por NOC: <span style="color:red">*</span></label>
+          </div>
+          <div class="col-xl-1">
+            <select class="form-control" formControlName="confirmacionPorNOC" name="confirmacionPorNOC">
+              <option [value]="conf.descripcion" *ngFor="let conf of confirmacion">
+                {{ conf.descripcion | titlecase}}
+              </option>
+            </select>
+          </div>
+          <div class="col"></div>
+        </div>
+        <div class="w-100"></div>
+        <div class="row">
+          <div class="col-xl-2">
+            <label>Tipo de Evento: <span style="color:red">*</span></label>
+          </div>
+          <div class="col-xl-4">
+            <select class="form-control" formControlName="tipoEvento" name="tipoEvento">
+              <option [value]="tipo.descripcion" *ngFor="let tipo of tiposEventos">
+                {{ tipo.descripcion | titlecase}}
+              </option>
+            </select>
+          </div>
+          <div class="col">
+            <label> N° Ticket NOC: </label>
+          </div>
+          <div class="col-xl-1">
+            <input type="text" class="form-control" style="width: 60px" autocomplete="off"
+            formControlName="nTicketNOC" name="nTicketNOC">
+          </div>
+          <div class="col"></div>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div id="tiempo">
+          <div class="row">
+            <h5> Tiempo estimado de solución de la afectación </h5>
+          </div>
+          <div class="w-100"></div>
+          <div class="row">
+            <div class="col-xl-1">
+              <label> Fecha de Inicio: <span style="color:red">*</span></label>
+            </div>
+            <div class="col-xl-2">
+              <input type="date" class="form-control" autocomplete="off"
+              formControlName="fechaInicio" name="fechaInicio">
+            </div>
+            <div class="col-xl-1">
+              <label> Hora de Inicio: <span style="color:red">*</span></label>
+            </div>
+            <div class="col-xl-1.5">
+              <input type="time" class="form-control" autocomplete="off"
+                formControlName="horaInicio" name="horaInicio">
+            </div>
+            <div class="col-xl-1">
+              <label> Fecha Posible Sol: </label>
+            </div>
+            <div class="col-xl-2">
+              <input type="date" class="form-control" autocomplete="off"
+              formControlName="fechaPosSol" name="fechaPosSol">
+            </div>
+            <div class="col"></div>
+          </div>
+          <div class="w-100"></div>
+          <div class="row">
+            <div class="col-xl-1">
+              <label> Estado: </label>
+            </div>
+            <div class="col-xl-1.5">
+              <select class="form-control" formControlName = "estado" name= "estado">
+                <option selected disabled hidden [value]="estadoPorDefecto" style="width: 100%">
+                {{ estadoPorDefecto | titlecase}} </option>
+								<option [value]="estado.descripcion" style="width: 100%" *ngFor="let estado of estados">
+									{{ estado.descripcion | titlecase }} </option>
+              </select>
+            </div>
+            <div class="col-xl-1">
+              <label> Fecha de Fin: </label>
+            </div>
+            <div class="col-xl-1.5">
+              <input type="date" class="form-control" autocomplete="off"
+              formControlName ="fechaFin" name="fechaFin">
+            </div>
+            <div class="col-xl-1">
+              <label> Hora de Fin: </label>
+            </div>
+            <div class="col-xl-1.5">
+              <input type="time" class="form-control" autocomplete="off"
+              formControlName ="horaFin" name="horaFin">
+            </div>
+            <div class="col-xl-1">
+              <label> Tiempo Posible Sol: </label>
+            </div>
+            <div class="col">
+              <div class="row">
+                <div class="col">
+                  <input type="number"  min="0" max="99" class="form-control" style="width: 75px" autocomplete="off"
+                  formControlName ="horaPosSol" name="horaPosSol">
+                </div>
+                <div class="col">
+                  <label> HH [0-99] </label>
+                </div>
+                <div class="col">
+                  <mat-checkbox class="form-check-input" (click)="activarVoceo()"
+                  formControlName ="activaVoceo" name="activaVoceo"> Activa Voceo </mat-checkbox>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <input type="number"  min="0" max="59" class="form-control" style="width: 75px" autocomplete="off"
+                  formControlName ="minutoPosSol" name="minutoPosSol">
+                </div>
+                <div class="col">
+                  <label> MM [0-59] </label>
+                </div>
+                <div class="col">
+                  <mat-checkbox class="form-check-input" (click)="activarAsesor()"
+                  formControlName ="atencionAsesor" name="atencionAsesor" [disabled]="!activaVoceo">
+                  Atención Asesor </mat-checkbox>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="w-100"></div>
+          <div class="row">
+            <div class="col-xl-1">
+              <label> Usuario: <span style="color:red">*</span></label>
+            </div>
+            <div class="col-xl-3">
+              <input type="text" class="form-control" value="{{ nombreSolicitante | titlecase}}" autocomplete="off"
+                name="usuario" formControlName="usuario">
+            </div>
+            <div class="col-xl-1">
+              <label> Fecha Ingreso: <span style="color:red">*</span></label>
+            </div>
+            <div class="col-xl-2">
+              <input type="date" class="form-control" autocomplete="off"
+                name="fechaIngreso" formControlName="fechaIngreso">
+            </div>
+            <div class="col-xl-1.5">
+              <label> Severidad: <span style="color:red">*</span></label>
+            </div>
+            <div class="col-xl-2">
+              <select class="form-control" name="severidad" formControlName="severidad">
+                <option [value]="s.descripcion" *ngFor="let s of severidad">
+                  {{ s.descripcion | titlecase}}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div id="datos-tecnicos">
+          <div class="row">
+            <h5 > Datos técnicos de afectación </h5>
+          </div>
+          <div class="w-100"></div>
+          <div class="row">
+            <div class="col">
+              <div class="row">
+                <label> Ciudad <span style="color:red">*</span></label>
+              </div>
+              <div class="row">
+                <input type="text" class="form-control" style="width: 195px" autocomplete="off"
+                    name="ciudadElegida" formControlName="ciudadElegida">
+              </div>
+              <div class="row">
+                <select class="form-control" name="ciudad" formControlName="ciudad"
+                (change)="guardarCodigoCiudad($event)">
+                  <option [value]="ciudad.nombre" style="width: 100%" *ngFor="let ciudad of ciudades"
+                  > {{ ciudad.nombre | titlecase}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col">
+              <div class="row">
+                <label> Tecnología <span style="color:red">*</span></label>
+              </div>
+              <div class="row">
+                <input type="text" class="form-control" style="width: 195px" autocomplete="off"
+                    name="tecnologiaElegida" formControlName="tecnologiaElegida">
+              </div>
+              <div class="row">
+                <select class="form-control" name="tecnologia" formControlName="tecnologia"
+                (change)="guardarCodigoTecnologia($event)">
+                  <option [value]="tecnologia.DESCRIPCION" style="width: 100%" *ngFor="let tecnologia of tecnologias">
+                    {{ tecnologia.DESCRIPCION | titlecase}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col">
+              <div class="row">
+                <label> Nivel 1 <span style="color:red">*</span></label>
+              </div>
+              <div class="row">
+                <input type="text" class="form-control" style="width: 195px" autocomplete="off"
+                    name="nivel1Elegido" formControlName="nivel1Elegido">
+              </div>
+              <div class="row">
+                <select class="form-control" name="nivel1" formControlName="nivel1"
+                (change)="guardarCodigoNivel1($event)">
+                  <option [value]="hub.DESCRIPCION" style="width: 100%" *ngFor="let hub of niveles1">
+                    {{ hub.DESCRIPCION | titlecase}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col">
+              <div class="row">
+                <label> Nivel 2 <span style="color:red">*</span></label>
+              </div>
+              <div class="row">
+                <input type="text" class="form-control" style="width: 195px" autocomplete="off"
+                    name="nivel2Elegido" formControlName="nivel2Elegido">
+              </div>
+              <div class="row">
+                <select class="form-control" name="nivel2" formControlName="nivel2"
+                (change)="guardarCodigoNivel2($event)">
+                  <option [value]="nivel2.DATO_EQUIPO" style="width: 100%" *ngFor="let nivel2 of niveles2"
+                  > {{ nivel2.DATO_EQUIPO | titlecase}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col">
+              <div class="row">
+                <label> Nivel 3 <span style="color:red">*</span></label>
+              </div>
+              <div class="row">
+                <input type="text" class="form-control" style="width: 195px" autocomplete="off"
+                    name="nivel3Elegido" formControlName="nivel3Elegido">
+              </div>
+              <div class="row">
+                <select class="form-control" name="nivel3" formControlName="nivel3"
+                (change)="guardarCodigoNivel3o4($event, 3)">
+                  <option [value]="nivel3.DATO_EQUIPO" style="width: 100%" *ngFor="let nivel3 of niveles3"
+                  > {{ nivel3.DATO_EQUIPO | titlecase}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-xl-3">
+              <div class="row">
+                <label> Último Nivel <span style="color:red">*</span></label>
+              </div>
+              <div class="row">
+                <input type="text" class="form-control" style="width: 195px" autocomplete="off"
+                    name="nivel4Elegido" formControlName="nivel4Elegido">
+              </div>
+              <div class="row">
+                <select class="form-control" name="nivel4" formControlName="nivel4"
+                (change)="guardarCodigoNivel3o4($event, 4)">
+                  <option [value]="nivel4.DATO_EQUIPO" style="width: 100%" *ngFor="let nivel4 of niveles4"
+                  > {{ nivel4.DATO_EQUIPO | titlecase}}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="w-100"></div>
+        </div>
+
+        <div id="datos-tecnicos">
+          <div class="row">
+            <h5> Problemas de la afectación </h5>
+          </div>
+          <div class="w-100"></div>
+          <div class="row">
+            <div class="col-xl-1.5">
+              <label> Atribuible: <span style="color:red">*</span></label>
+            </div>
+            <div class="col-xl-4">
+              <select class="form-control" name="atribuible" formControlName="atribuible">
+                <option [value]="atribuible.descripcion" *ngFor="let atribuible of atribuibles">
+                  {{ atribuible.descripcion | titlecase}}
+                </option>
+              </select>
+            </div>
+            <div class="col-xl-1.5">
+              <label> Tipo de Problema: <span style="color:red">*</span></label>
+            </div>
+            <div class="col-xl-4">
+              <select class="form-control" name="tipoProblema" formControlName="tipoProblema">
+                <option [value]="tipo.descripcion" *ngFor="let tipo of tiposProblemas">
+                  {{ tipo.descripcion | titlecase}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="w-100"></div>
+          <div class="row">
+            <div class="col-xl-1.5">
+              <label> Detalle: <span style="color:red">*</span></label>
+            </div>
+            <div class="col-xl-4">
+              <select class="form-control" name="detalle" formControlName="detalle">
+                <option [value]="detalle.descripcion" *ngFor="let detalle of detalles">
+                  {{ detalle.descripcion | titlecase}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="w-100"></div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <button type="submit" class="btn btn-block btn-primary" [disabled]="formulario.invalid"
+            >Generar Alarma</button>
+          </div>
+          <div class="col-6">
+            <button type="button" class="btn btn-block btn-danger" (click)="onReiniciarFormulario()"
+              [disabled]="formulario.untouched">Cancelar</button>
+          </div>
+        </div>
+			</div>
+		</form>
+	</div>
+</div>

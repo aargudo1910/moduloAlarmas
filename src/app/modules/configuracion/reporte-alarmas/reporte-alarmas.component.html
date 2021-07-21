@@ -5,30 +5,6 @@
 			<div>
 				<span class="btn btn-light btn-generar-reporte"
 					(click)="onGenerarReporte()">Generar Reporte</span>
-
-				<span class="btn-filtro" (click)="onShowFilters()">
-					<span class="icon-filter"></span> Filtrar
-				</span>
-			</div>
-		</div>
-
-		<div class="filtros" [@showFilter]="showFilter ? 'show' : 'hide'">
-			<div>
-				<label for="">Fecha Inicio</label>
-				<input type="date" (change)="onFilter($event, 'fechaInicio')">
-			</div>
-			<div>
-				<label for="">Fecha Fin</label>
-				<input type="date" (change)="onFilter($event, 'fechaFin')">
-			</div>
-			<div style="position: relative">
-				<label for="">Estado</label>
-				<select name="" id="" (change)="onFilter($event, 'estado')">
-					<option value="">Todos</option>
-					<option value="A">Activo</option>
-					<option value="I">Inactivo</option>
-				</select>
-				<span class="icon-keyboard_arrow_down" style="margin-left: -20px;margin-top: 5px"></span>
 			</div>
 		</div>
 
@@ -138,13 +114,6 @@
 								<span>{{ alarma.fechaAprobSAC | date}} </span>
 							</span>
 
-						</div>
-
-						<div class="col-auto" style="display: table;font-size: .9rem; width: auto;">
-							<span class="column-detail" *ngIf="alarma.archivo == 'SI' && alarma.hasError != 0">
-								<span style="text-decoration: underline;cursor: pointer"
-									(click)="onDescargarReporteErrores(alarma.idAlarma)">Reporte de errores </span>
-							</span>
 						</div>
 					</div>
 				</div>

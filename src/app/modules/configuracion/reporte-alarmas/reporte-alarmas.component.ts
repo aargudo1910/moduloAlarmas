@@ -33,13 +33,11 @@ export class ReporteAlarmasComponent implements OnInit {
 	states: any;
 	isLoadingAlarmas: boolean = true;
 	closeResult: string;
-	showFilter:boolean = false;
 	totalAlarmas: number = 0; //quitar =0
 	paginaActual = 1;
 	nroAlarmasCargadas: number = 0;
 	opcionPaginacion: string = "mas";
 	nroAlarmasCargadasAnterior: number;
-	private listaAreas: Area[];
 
 	constructor(private alarmaService: AlarmaService,
 		private authService: AuthService,
